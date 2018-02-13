@@ -1,2 +1,6 @@
 
 *.bin
+
+\.vscode/tasks\.json
+
+settings\.xml

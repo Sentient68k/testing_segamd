@@ -186,7 +186,8 @@ VBlankInterrupt:
     rts ; Return from Subroutine
 
 Exception:
-    stop #$2700 ; Halt CPU
+    rts
+    ;stop #$2700 ; Halt CPU
     
 Z80Data:
     dc.w $af01, $d91f
