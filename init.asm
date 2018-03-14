@@ -1,193 +1,216 @@
     ; ******************************************************************
     ; Sega Megadrive ROM header
     ; ******************************************************************
-    dc.l    $00FFE000       ; Initial stack pointer value
-    dc.l    EntryPoint      ; Start of program
-    dc.l    Exception        ; Bus error
-    dc.l    Exception        ; Address error
-    dc.l    Exception        ; Illegal instruction
-    dc.l    Exception        ; Division by zero
-    dc.l    Exception        ; CHK exception
-    dc.l    Exception        ; TRAPV exception
-    dc.l    Exception        ; Privilege violation
-    dc.l    Exception        ; TRACE exception
-    dc.l    Exception        ; Line-A emulator
-    dc.l    Exception        ; Line-F emulator
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Spurious exception
-    dc.l    Exception        ; IRQ level 1
-    dc.l    Exception        ; IRQ level 2
-    dc.l    Exception        ; IRQ level 3
-    dc.l    HBlankInterrupt ; IRQ level 4 (horizontal retrace interrupt)
-    dc.l    Exception        ; IRQ level 5
-    dc.l    VBlankInterrupt ; IRQ level 6 (vertical retrace interrupt)
-    dc.l    Exception        ; IRQ level 7
-    dc.l    Exception        ; TRAP #00 exception
-    dc.l    Exception        ; TRAP #01 exception
-    dc.l    Exception        ; TRAP #02 exception
-    dc.l    Exception        ; TRAP #03 exception
-    dc.l    Exception        ; TRAP #04 exception
-    dc.l    Exception        ; TRAP #05 exception
-    dc.l    Exception        ; TRAP #06 exception
-    dc.l    Exception        ; TRAP #07 exception
-    dc.l    Exception        ; TRAP #08 exception
-    dc.l    Exception        ; TRAP #09 exception
-    dc.l    Exception        ; TRAP #10 exception
-    dc.l    Exception        ; TRAP #11 exception
-    dc.l    Exception        ; TRAP #12 exception
-    dc.l    Exception        ; TRAP #13 exception
-    dc.l    Exception        ; TRAP #14 exception
-    dc.l    Exception        ; TRAP #15 exception
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-    dc.l    Exception        ; Unused (reserved)
-
-    dc.b "SEGA GENESIS   "                                  ; Console name
-    dc.b "(C)SEGA 1992.SEP"                                 ; Copyrght holder and release date
-    dc.b "YOUR GAME HERE                                             "  ; Domestic name
-    dc.b "YOUR GAME HERE                                             "  ; International name
-    dc.b "GM XXXXXXXX-XX"                                   ; Version number
-    dc.w $0000                                              ; Checksum
-    dc.b "J                 "                                   ; I/O support
-    dc.l $00000000                                          ; Start address of ROM
-    dc.l __end                                              ; End address of ROM
-    dc.l $00FF0000                                          ; Start address of RAM
-    dc.l $00FFFFFF                                          ; End address of RAM
-    dc.l $00000000                                          ; SRAM enabled
-    dc.l $00000000                                          ; Unused
-    dc.l $00000000                                          ; Start address of SRAM
-    dc.l $00000000                                          ; End address of SRAM
-    dc.l $00000000                                          ; Unused
-    dc.l $00000000                                          ; Unused
-    dc.b "                                                   "          ; Notes (unused)
-    dc.b "JUE                "                                  ; Country codes
+StartOfRom:
+Vectors:	
+    dc.l	$FFFE00, EntryPoint, BusError, AddressError
+	dc.l	IllegalInstr, ZeroDivide, ChkInstr, TrapvInstr
+	dc.l	PrivilegeViol, Trace, Line1010Emu, Line1111Emu
+	dc.l	ErrorExcept, ErrorExcept, ErrorExcept, ErrorExcept
+	dc.l	ErrorExcept, ErrorExcept, ErrorExcept, ErrorExcept
+	dc.l	ErrorExcept, ErrorExcept, ErrorExcept, ErrorExcept
+	dc.l	ErrorExcept, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	HBlank,    ErrorTrap, VBlank, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+	dc.l	ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
+Console:	
+    dc.b	'SEGA MEGA DRIVE '					; Hardware system ID
+Date:
+    dc.b	'(C)XXXX YEAR.MON'					; Release date
+Title_Local:
+    dc.b	'YOUR GAME TITLE WILL GO HERE... MEEEEEEEEEEEEEP!'	; Domestic name (Note: has to be 48 bytes long, pad it out with spaces if you do not have 48 characters in your title.
+Title_Int:
+    dc.b	'YOUR GAME TITLE WILL GO HERE... MEEEEEEEEEEEEEP!'	; International name (Note: has to be 48 bytes long)
+Serial:
+    dc.b	'GM 10101010-00'					; Serial/version number
+Checksum:
+    dc.w	0							; Checksum
+	dc.b	'J               '					; I/O support (Has to be 16 bytes long, so pad it out with spaces.)
+RomStartLoc:
+    dc.l	StartOfRom						; ROM start
+RomEndLoc:
+    dc.l	__end-1						; ROM end
+RamStartLoc:
+    dc.l	$FF0000							; RAM start
+RamEndLoc:
+    dc.l	$FFFFFF							; RAM end
+SRAMSupport:
+    dc.l	$5241F820						; change to $5241F820 (NOT $5241E020) to create SRAM. 'RA' and $F8 also work.
+	dc.l	$200000							; SRAM start
+	dc.l	$200200							; SRAM end (Gives us $200  ($100 useable) bytes of SRAM)
+Notes:
+    dc.b	'                                                    '	; Anything can be put in this space, but it has to be 52 bytes.
+Region:
+    dc.b	'JUE             '					; Region (J=Japan, U=USA, E=Europe)
 
 EntryPoint:           ; Entry point address set in ROM header
-
-    ; ************************************
-    ; Test reset button
-    ; ************************************
-    tst.w $00A10008  ; Test mystery reset (expansion port reset?)
-    bne Main             ; Branch if Not Equal (to zero) - to Main
-    tst.w $00A1000C  ; Test reset button
-    bne Main             ; Branch if Not Equal (to zero) - to Main
-    
-    ; ************************************
-    ; Clear RAM
-    ; ************************************
-    move.l #$00000000, d0     ; Place a 0 into d0, ready to copy to each longword of RAM
-    move.l #$00000000, a0     ; Starting from address $0, clearing backwards
-    move.l #$00003FFF, d1     ; Clearing 64k's worth of longwords (minus 1, for the loop to be correct)
-    @Clear:
-    move.l d0, -(a0)              ; Decrement the address by 1 longword, before moving the zero from d0 to it
-    dbra d1, @Clear             ; Decrement d0, repeat until depleted
-    
-    ; ************************************
-    ; Write TMSS
-    ; ************************************
-    move.b $00A10001, d0        ; Move Megadrive hardware version to d0
-    andi.b #$0F, d0           ; The version is stored in last four bits, so mask it with 0F
-    beq @Skip                       ; If version is equal to 0, skip TMSS signature
-    move.l #'SEGA', $00A14000 ; Move the string "SEGA" to $A14000
-    @Skip:
-
-    ; ************************************
-    ; Init Z80
-    ; ************************************
-    move.w #$0100, $00A11100     ; Request access to the Z80 bus, by writing $0100 into the BUSREQ port
-    move.w #$0100, $00A11200     ; Hold the Z80 in a reset state, by writing $0100 into the RESET port
-
-    @Wait:
-    btst #$0, $00A11100     ; Test bit 0 of A11100 to see if the 68k has access to the Z80 bus yet
-    bne @Wait                       ; If we don't yet have control, branch back up to Wait
-    
-    move.l #Z80Data, a0       ; Load address of data into a0
-    move.l #$00A00000, a1     ; Copy Z80 RAM address to a1
-    move.l #$29, d0           ; 42 bytes of init data
-    @CopyZ80:
-    move.b (a0)+, (a1)+       ; Copy data, and increment the source/dest addresses
-    dbra d0, @CopyZ80
-
-    move.w #$0000, $00A11200     ; Release reset state
-    move.w #$0000, $00A11100     ; Release control of bus
-
-    ; ************************************
-    ; Init PSG
-    ; ************************************
-    move.l #PSGData, a0       ; Load address of PSG data into a0
-    move.l #$03, d0           ; 4 bytes of data
-    @CopyPSG:
-    move.b (a0)+, $00C00011 ; Copy data to PSG RAM
-    dbra d0, @CopyPSG
-    
-    ; ************************************
-    ; Init VDP
-    ; ************************************
-    move.l #VDPRegisters, a0    ; Load address of register table into a0
-    move.l #$18, d0           ; 24 registers to write
-    move.l #$00008000, d1     ; 'Set register 0' command (and clear the rest of d1 ready)
-
-    @CopyVDP:
-    move.b (a0)+, d1              ; Move register value to lower byte of d1
-    move.w d1, vdp_control      ; Write command and value to VDP control port
-    add.w #$0100, d1             ; Increment register #
-    dbra d0, @CopyVDP
-
-    ; ************************************
-    ; Init control ports
-    ; ************************************
-    move.b #$00, $000A10009  ; Controller port 1 CTRL
-    move.b #$00, $000A1000B  ; Controller port 2 CTRL
-    move.b #$00, $000A1000D  ; EXP port CTRL
-
-    ; ************************************
-    ; Cleanup
-    ; ************************************
-    move.l #$00FF0000, a0     ; Move address of first byte of ram (contains zero, RAM has been cleared) to a0
-    movem.l (a0), d0-d7/a1-a7  ; Multiple move zero to all registers
-    move.l #$00000000, a0     ; Clear a0
-
-    ; Init status register (no trace, A7 is Interrupt Stack Pointer, no interrupts, clear condition code bits)
-    move #$2700, sr
+	move    #$2700,sr		; Disable interrupts.
+	tst.l   ($A10008)		; Test port A control.
+	bne.s   PortA_Ok		; If so, magically branch.
+	tst.w   ($A1000C)		; Test port C control.
+PortA_Ok:
+	bne.w   PortC_Ok
+	move.b  ($A10001),d0		; Get hardware version.
+	andi.b  #$F,d0			; Compare.
+	beq.s   SkipSecurity		; If the console has no TMSS, skip the security stuff.
+	move.l  #'SEGA',($A14000)	; Make the TMSS happy.
+SkipSecurity:
+	moveq   #0,d0			; Clear d0.
+	move.l  #$C0000000,($C00004)	; Set VDP to CRAM write.
+	move.w  #$3F,d7			; Clear the entire CRAM.
+VDP_ClrCRAM:
+	move.w  d0,($C00000)		; Write 0 to the data port.
+	dbf     d7,VDP_ClrCRAM		; Clear the CRAM.
+	lea     ($FFFF0000),a0		; Load start of RAM into a0.
+	move.w  #$3FFF,d0		; Clear $3FFF longwords.
+	moveq   #0,d1			; Clear d1.
+@clrRamLoop:
+	move.l  d1,(a0)+		; Clear a long of RAM.
+	dbf     d0,@clrRamLoop		; Continue clearing RAM if there's anything left.
+PortC_Ok:
+	bsr.w   Init_Z80		; Initialize the Z80.
+	move    #$2300, sr		; Enable interrupts.
+	bra.s   Main		; Branch to main program.
+	nop
 
     ; ************************************
     ; Main
     ; ************************************
 Main:
+    move.l #VDPRegisters, a0 ; Load address of register table into a0
+    move.l #0x18, d0         ; 24 registers to write
+    move.l #0x00008000, d1   ; 'Set register 0' command (and clear the rest of d1 ready)
+ 
+@Copy:
+    move.b (a0)+, d1         ; Move register value to lower byte of d1
+    move.w d1, vdp_control    ; Write command and value to VDP control port
+    add.w #0x0100, d1        ; Increment register #
+    dbra d0, @Copy
+
     jmp __main ; Begin external main
 
-HBlankInterrupt:
-    rts ; Return from Subroutine
-VBlankInterrupt:
-    rts ; Return from Subroutine
+Init_Z80:
+	move.w  #$100,($A11100)					; Send the Z80 a bus request.
+	move.w  #$100,($A11200)					; Reset the Z80.
+Init_Z80_WaitZ80Loop:
+	btst	#0,($A11100)					; Has the Z80 reset?
+	bne.s	Init_Z80_WaitZ80Loop				; If not, keep checking.
+	lea     (Init_Z80_InitCode),a0				; Load the start address of the code to a0.
+	lea     ($A00000),a1					; Load the address of start of Z80 RAM to a1.
+	move.w  #Init_Z80_InitCode_End-Init_Z80_InitCode-1,d1	; Load the length of the Z80 code to d1.
+Init_Z80_LoadProgramLoop:
+	move.b  (a0)+,(a1)+					; Write a byte of Z80 data.
+	dbf	d1,Init_Z80_LoadProgramLoop			; If we have bytes left to write, write them.
+	move.w  #0,($A11200)					; Disable the Z80 reset.
+	move.w  #0,($A11100)					; Give the Z80 the bus back.
+	move.w  #$100,($A11200)					; Reset the Z80 again.
+	rts							; Return to sub.
 
-Exception:
-    rts
-    ;stop #$2700 ; Halt CPU
+;----------------------------------------------
+; Below is the code that the Z80 will execute.
+;----------------------------------------------
+Init_Z80_InitCode:
+	dc.w    $AF01, $D91F, $1127, $0021, $2600, $F977 
+	dc.w    $EDB0, $DDE1, $FDE1, $ED47, $ED4F, $D1E1
+	dc.w    $F108, $D9C1, $D1E1, $F1F9, $F3ED, $5636
+	dc.w    $E9E9
+Init_Z80_InitCode_End:
+
+HBlank:
+    rte ; Return from Subroutine
+VBlank:
+    rte ; Return from Subroutine
+ErrorExcept:
+    lea ExErrorExcept, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+ErrorTrap:
+    lea ExErrorTrap, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+BusError:
+    lea ExBusError, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+AddressError:
+    lea ExAddressError, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+IllegalInstr:
+    lea ExIllegalInstr, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+ZeroDivide:
+    lea ExZeroDivide, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+ChkInstr:
+    lea ExChkInstr, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+TrapvInstr:
+    lea ExTrapvInstr, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+PrivilegeViol:
+    lea ExPrivilegeViol, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+Trace:
+    lea ExTrace, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+Line1010Emu:
+    lea ExLine1010Emu, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+Line1111Emu:
+    lea ExLine1111Emu, a0 ; Put address of string in a0
+	move.w #PixelFontTileID, d0 ; Put Block ID of font start in d0
+	move.w #0x0101, d1 ; First letter position in tiles.
+	move.l #0x0, d2 ; Pallete to use.
+	jsr DrawTextPlaneA
+    stop #$2700 ; Halt CPU
+
     
 Z80Data:
     dc.w $af01, $d91f
@@ -230,3 +253,33 @@ VDPRegisters:
     dc.b $00 ; 21: DMA source address lo byte
     dc.b $00 ; 22: DMA source address mid byte
     dc.b $00 ; 23: DMA source address hi byte, memory-to-VRAM mode (bits 6-7)
+	
+	nop 0,8
+ExHBlank:
+	dc.b 	'HBlank'
+ExVBlank:
+	dc.b 	'VBlank'
+ExErrorExcept:
+	dc.b 	'ErrorExcept'
+ExErrorTrap:
+	dc.b 	'ErrorTrap'
+ExBusError:
+	dc.b 	'BusError'
+ExAddressError:
+	dc.b 	'AddressError'
+ExIllegalInstr:
+    dc.b 	'IllegalInstr'
+ExZeroDivide:
+    dc.b 	'ZeroDivide'
+ExChkInstr:
+    dc.b 	'ChkInstr'
+ExTrapvInstr:
+    dc.b 	'TrapvInstr'
+ExPrivilegeViol:
+    dc.b 	'PrivilegeViol'
+ExTrace:
+    dc.b 	'Trace'
+ExLine1010Emu:
+    dc.b 	'Line1010Emu'
+ExLine1111Emu:
+    dc.b 	'Line1111Emu'
