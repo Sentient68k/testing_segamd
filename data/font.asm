@@ -1,8 +1,9 @@
 	nop 0,8
 
 TestString:
-	dc.b	'TEST'
+	dc.b	'HELLO WORLD'
 
+	nop 0,8
 PixelFont: ; Font start address
 
 	dc.l	$00000000

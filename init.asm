@@ -70,6 +70,12 @@ VDP_ClrCRAM:
 	lea     ($FFFF0000),a0		; Load start of RAM into a0.
 	move.w  #$3FFF,d0		; Clear $3FFF longwords.
 	moveq   #0,d1			; Clear d1.
+VDP_ClrVRAM:
+	move.w  d0,($C00000)		; Write 0 to the data port.
+	dbf     d7,VDP_ClrVRAM		; Clear the CRAM.
+	lea     ($FFFF0000),a0		; Load start of RAM into a0.
+	move.w  #$07FF,d0		; Clear $3FFF longwords.
+	moveq   #0,d1			; Clear d1.
 @clrRamLoop:
 	move.l  d1,(a0)+		; Clear a long of RAM.
 	dbf     d0,@clrRamLoop		; Continue clearing RAM if there's anything left.
